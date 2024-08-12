@@ -1,0 +1,16 @@
+
+/* header.module.css */
+.header {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row;
+    justify-content: center;
+    padding: 20px;
+    margin-bottom: 80px;
+    z-index: 100;
+
+}
+
+.logo {
+    /* You can add additional styles for the logo if needed */
+}

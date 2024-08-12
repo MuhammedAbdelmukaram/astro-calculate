@@ -1,0 +1,101 @@
+/* result.module.css */
+
+.result {
+    padding: 0px;
+    color: white;
+    width: 100%;
+    border-radius: 8px;
+    z-index: 100;
+}
+
+.heading {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.resultGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .resultGrid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+.resultItem {
+    text-align: center;
+}
+
+.value {
+    font-size: 32px;
+    font-weight: bold;
+    color: #9D80FF;
+}
+
+.label {
+    font-size: 20px;
+    font-weight: 500;
+    color: #fff;
+    margin-top: 8px;
+}
+
+.divider {
+    background-color: #444;
+    width: 100%;
+    height: 2px;
+    margin: 20px 0;
+}
+
+.breakEvenGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    align-items: center;
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .breakEvenGrid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+.breakEvenItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.breakEvenValue {
+    font-size: 18px;
+    font-weight: lighter;
+    color: #9D80FF;
+}
+
+.breakEvenLabel {
+    font-size: 12px;
+    font-weight: 500;
+    color: #ccc;
+    margin-top: 8px;
+}
+
+.good {
+    color: #00bb00;
+}
+
+.average {
+    color: #558000;
+}
+
+.bad {
+    color: red;
+}

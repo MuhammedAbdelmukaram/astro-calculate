@@ -1,95 +1,149 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client"
+import React, { useState } from 'react';
+import Calculator from './calculator';
+import CalculatorTwo from './calculatorTwo';
+import Result from './result';
+import Modal from './calculatorModal';
+import styles from './page.module.css';
+import Header from "@/app/header";
+import Heading from "@/app/Heading";
+import { motion } from "framer-motion";
+import ResultTwo from "@/app/resultTwo";
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+const Home = () => {
+    const [results, setResults] = useState({
+        profit: 0,
+        roi: 0,
+        breakEvenROAS: 0,
+        roas: 0,
+        breakEvenProfit: 0,
+        breakEvenROI: 0,
+    });
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+    const [resultsTwo, setResultsTwo] = useState({
+        profitMargin: '0%', // Default placeholder for Profit Margin
+        feasibility: '/', // Default placeholder for Feasibility
+    });
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
+
+    const [selectedCalculator, setSelectedCalculator] = useState(1); // Default to Calculator 1
+    const [isModalOpen, setIsModalOpen] = useState(true);
+
+    const calculateResults = ({ sales, adCost, cogs, price }) => {
+        const salesNum = Number(sales);
+        const adCostNum = Number(adCost);
+        const cogsNum = Number(cogs);
+        const priceNum = Number(price);
+
+        const revenue = salesNum * priceNum;
+        const profit = revenue - (adCostNum + cogsNum);
+        const roi = (adCostNum !== 0) ? (profit / adCostNum) * 100 : 0;
+        const breakEvenROAS = (adCostNum !== 0) ? (cogsNum + adCostNum) / adCostNum : 0;
+        const roas = (adCostNum !== 0) ? revenue / adCostNum : 0;
+        const breakEvenROI = (adCostNum !== 0) ? breakEvenROAS / roas : 0;
+
+        let productHealth = 'Bad';
+        if (roi >= 200 || roas >= 2.5) {
+            productHealth = 'Good';
+        } else if ((roi >= 100 && roi < 200) || (roas >= 1.5 && roas < 2.5)) {
+            productHealth = 'Average';
+        }
+
+        setResults({
+            profit: profit.toFixed(2),
+            roi: `${(roi / 100).toFixed(2)} (${roi.toFixed(0)}%)`,
+            breakEvenROAS: breakEvenROAS.toFixed(2),
+            roas: `${roas.toFixed(2)} (${(roas * 100).toFixed(0)}%)`,
+            productHealth: productHealth,  // Ensure productHealth is passed here
+            breakEvenROI: `${breakEvenROI.toFixed(2)} (${(breakEvenROI * 100).toFixed(0)}%)`,
+        });
+    };
+
+
+
+
+    const calculateResultsTwo = ({ price, supplierPrice }) => {
+        const priceNum = Number(price);
+        const supplierPriceNum = Number(supplierPrice);
+
+        const profitMargin = ((priceNum - supplierPriceNum) / priceNum) * 100;
+
+        let feasibility = 'Bad';
+        if (priceNum >= supplierPriceNum * 3) {
+            feasibility = 'Good';
+        } else if (priceNum >= supplierPriceNum * 2) {
+            feasibility = 'Average';
+        }
+
+        setResultsTwo({
+            profitMargin: profitMargin.toFixed(2) + '%',
+            feasibility,
+        });
+    };
+
+
+    const handleSelectCalculator = (calculator) => {
+        console.log(`Selected Calculator: ${calculator}`);
+        setSelectedCalculator(calculator);
+        setIsModalOpen(false);
+    };
+
+
+    const renderCalculator = () => {
+        if (selectedCalculator === 1) {
+            return (
+                <>
+                    <Header />
+                    <Heading selectedCalculator={selectedCalculator} onSelectCalculator={handleSelectCalculator} />
+                    <Calculator onCalculate={calculateResults} />
+                    <Result
+                        profit={results.profit}
+                        roi={results.roi}
+                        breakEvenROAS={results.breakEvenROAS}
+                        roas={results.roas}
+                        productHealth={results.productHealth}  // Pass productHealth to the Result component
+                        breakEvenROI={results.breakEvenROI}
+                    />
+                </>
+            );
+        } else if (selectedCalculator === 2) {
+            return (
+                <>
+                    <Header />
+                    <Heading selectedCalculator={selectedCalculator} onSelectCalculator={handleSelectCalculator} />
+                    <CalculatorTwo onCalculate={calculateResultsTwo} />
+                    <ResultTwo
+                        profitMargin={resultsTwo.profitMargin}
+                        feasibility={resultsTwo.feasibility}
+                    />
+                </>
+            );
+        } else {
+            return null;
+        }
+    };
+
+
+
+    return (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.0 }}
         >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+            <main className={styles.main}>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+                {isModalOpen && (
+                    <Modal
+                        onClose={() => setIsModalOpen(false)}
+                        onSelect={handleSelectCalculator}
+                    />
+                )}
+                {!isModalOpen && renderCalculator()}
+            </main>
+        </motion.div>
+    );
+};
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
-}
+export default Home;

@@ -1,0 +1,64 @@
+/* calculatorModal.module.css */
+
+.modalBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    gap: 40px;
+}
+
+.option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 40px;
+    background-color: #5e48d4;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    width: 248px; /* Set a fixed width for consistency */
+    box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
+.option:hover {
+    transform: scale(1.05);
+    background-color: #4229d0;
+}
+
+.optionText {
+    margin-top: 12px;
+    color: white;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .option {
+        padding: 30px;
+    }
+
+    .modalContent {
+        gap: 15px;
+        padding: 10px;
+        max-width: 100vw; /* Further reduce max-width for smaller screens */
+    }
+
+    .logo {
+        max-width: 200px; /* Reduce logo size for smaller screens */
+    }
+}

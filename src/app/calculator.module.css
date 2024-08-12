@@ -1,0 +1,140 @@
+/* calculator.module.css */
+
+.calculator {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(220px, 1fr)); /* Ensures minimum width and equal distribution */
+    gap: 40px;
+    margin-bottom: 0px;
+    z-index: 100;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .calculator {
+        grid-template-columns: repeat(2, minmax(220px, 1fr)); /* 2 columns for medium screens */
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .calculator {
+        grid-template-columns: 1fr; /* Stack inputs vertically on small screens */
+        gap: 20px;
+        display: block;
+    }
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.label {
+    font-size: 14px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.infoCircle {
+    display: inline-block;
+    margin-left: 8px;
+    background-color: #6e60c6;
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.tooltip {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.infoCircle:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #bbbbbb;
+    background-color: #000;
+    border-radius: 25px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: #fff;
+    text-align: center;
+}
+
+.input:focus::placeholder {
+    opacity: 0;
+}
+
+.button {
+    display: block;
+    width: fit-content;
+    padding: 0.75rem 4rem;
+    background-color: #6e60c6;
+    align-self: flex-end;
+    margin-top: 100px;
+    height: 44px;
+    color: #ffffff;
+    grid-column: 3 / 4;
+    justify-self: end;
+    border: none;
+    border-radius: 100px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+@media (max-width: 1800px) {
+    .calculator {
+        display: block;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .button {
+        margin-top: 40px; /* Reduce margin on small screens */
+        justify-self: center;
+    }
+}
+
+.button:hover {
+    background-color: #7b6cdc;
+}
